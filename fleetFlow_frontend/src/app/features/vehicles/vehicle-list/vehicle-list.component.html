@@ -1,0 +1,46 @@
+<div class="filter-bar mb-3">
+  <input class="form-control-ff" style="width:200px" [(ngModel)]="searchNumber" placeholder="🔍 Search vehicle number..." (keyup.enter)="onFilter()">
+  <select *ngIf="role !== 'DRIVER'" class="form-control-ff" style="width:180px" [(ngModel)]="filterWarehouseId" (ngModelChange)="onFilter()">
+    <option value="">All Warehouses</option>
+    <option *ngFor="let w of warehouses" [value]="w.warehouseId">{{ w.warehouseName }}</option>
+  </select>
+  <select class="form-control-ff" style="width:140px" [(ngModel)]="filterType" (change)="onFilter()">
+    <option value="">All Types</option>
+    <option *ngFor="let t of vehicleTypes" [value]="t">{{ t }}</option>
+  </select>
+  <select class="form-control-ff" style="width:140px" [(ngModel)]="filterStatus" (change)="onFilter()">
+    <option value="">All Statuses</option>
+    <option value="AVAILABLE">Available</option>
+    <option value="IN_USE">In Use</option>
+    <option value="MAINTENANCE">Maintenance</option>
+  </select>
+  <button class="btn btn-sm btn-outline-secondary" (click)="onReset()">🔄 Reset</button>
+  <input type="date" class="form-control-ff" style="width:150px" [(ngModel)]="checkStartDate">
+  <input type="date" class="form-control-ff" style="width:150px" [(ngModel)]="checkEndDate">
+  <button class="btn btn-sm btn-outline-success" (click)="checkAvailable.emit({ start: checkStartDate, end: checkEndDate })">✅ Check Available</button>
+</div>
+
+<div class="ff-card">
+  <div *ngIf="loading" class="spinner-overlay"><div class="spinner-border text-primary"></div></div>
+  <table class="ff-table" *ngIf="!loading">
+    <thead><tr><th>#</th><th>NUMBER</th><th>TYPE</th><th>MANUFACTURER</th><th>YEAR</th><th>FUEL</th><th>STATUS</th><th>TRIPS</th><th>ACTIONS</th></tr></thead>
+    <tbody>
+      <tr *ngFor="let v of vehicles; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td><strong>{{ v.vehicleNumber }}</strong></td>
+        <td>{{ v.vehicleType }}</td>
+        <td>{{ v.manufacturer }}</td>
+        <td>{{ v.modelYear }}</td>
+        <td>{{ v.fuelType }}</td>
+        <td><span class="badge-status" [ngClass]="statusClass(v.currentStatus)">{{ v.currentStatus }}</span></td>
+        <td>{{ v.totalTrips || 0 }}</td>
+        <td>
+          <button *ngIf="role !== 'DRIVER'" class="btn btn-sm btn-outline-primary" (click)="updateStatus.emit(v)">
+            🔄 Update Status
+          </button>
+        </td>
+      </tr>
+      <tr *ngIf="vehicles.length === 0"><td colspan="9" class="empty-row">No vehicles found</td></tr>
+    </tbody>
+  </table>
+</div>

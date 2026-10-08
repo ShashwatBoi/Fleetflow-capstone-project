@@ -1,0 +1,5 @@
+<div class="toast-container">
+  <div *ngFor="let t of toasts" class="toast-msg" [ngClass]="t.type === 'success' ? 'toast-success' : 'toast-error'">
+    {{ t.message }}
+  </div>
+</div>

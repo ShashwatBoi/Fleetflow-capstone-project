@@ -1,0 +1,73 @@
+<div class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header"><h4>Add New Vehicle</h4><button class="modal-close" (click)="cancelled.emit()">✕</button></div>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="form-group">
+        <label class="form-label">Warehouse *</label>
+        <select formControlName="warehouseId" class="form-control-ff"
+                [class.is-invalid]="f('warehouseId')?.invalid && f('warehouseId')?.touched">
+          <option value="">Select Warehouse</option>
+          <option *ngFor="let w of warehouses" [value]="w.warehouseId">{{ w.warehouseName }} – {{ w.location }}</option>
+        </select>
+        <div class="invalid-feedback" *ngIf="f('warehouseId')?.errors?.['required'] && f('warehouseId')?.touched">Required</div>
+      </div>
+      <div class="row g-2">
+        <div class="col-6 form-group">
+          <label class="form-label">Vehicle Number *</label>
+          <input formControlName="vehicleNumber" class="form-control-ff" placeholder="e.g. DL01AB1234"
+                 [class.is-invalid]="f('vehicleNumber')?.invalid && f('vehicleNumber')?.touched">
+          <div class="invalid-feedback" *ngIf="f('vehicleNumber')?.errors?.['required'] && f('vehicleNumber')?.touched">Required</div>
+        </div>
+        <div class="col-6 form-group">
+          <label class="form-label">Vehicle Type *</label>
+          <select formControlName="vehicleType" class="form-control-ff"
+                  [class.is-invalid]="f('vehicleType')?.invalid && f('vehicleType')?.touched">
+            <option value="">Select Type</option>
+            <option *ngFor="let t of vehicleTypes" [value]="t">{{ t }}</option>
+          </select>
+          <div class="invalid-feedback" *ngIf="f('vehicleType')?.errors?.['required'] && f('vehicleType')?.touched">Required</div>
+        </div>
+        <div class="col-6 form-group">
+          <label class="form-label">Manufacturer *</label>
+          <input formControlName="manufacturer" class="form-control-ff" placeholder="e.g. Tata Motors"
+                 [class.is-invalid]="f('manufacturer')?.invalid && f('manufacturer')?.touched">
+          <div class="invalid-feedback" *ngIf="f('manufacturer')?.errors?.['required'] && f('manufacturer')?.touched">Required</div>
+        </div>
+        <div class="col-6 form-group">
+          <label class="form-label">Model Year *</label>
+          <input type="number" formControlName="modelYear" class="form-control-ff" placeholder="e.g. 2022"
+                 [class.is-invalid]="f('modelYear')?.invalid && f('modelYear')?.touched">
+          <div class="invalid-feedback" *ngIf="f('modelYear')?.errors?.['required'] && f('modelYear')?.touched">Required</div>
+          <div class="invalid-feedback" *ngIf="f('modelYear')?.errors?.['min'] && f('modelYear')?.touched">Min year is 1900</div>
+        </div>
+        <div class="col-6 form-group">
+          <label class="form-label">Fuel Type *</label>
+          <select formControlName="fuelType" class="form-control-ff"
+                  [class.is-invalid]="f('fuelType')?.invalid && f('fuelType')?.touched">
+            <option value="">Select Fuel Type</option>
+            <option *ngFor="let ft of fuelTypes" [value]="ft">{{ ft }}</option>
+          </select>
+          <div class="invalid-feedback" *ngIf="f('fuelType')?.errors?.['required'] && f('fuelType')?.touched">Required</div>
+        </div>
+        <div class="col-6 form-group">
+          <label class="form-label">Status *</label>
+          <select formControlName="currentStatus" class="form-control-ff">
+            <option *ngFor="let s of statusOptions" [value]="s">{{ s }}</option>
+          </select>
+        </div>
+        <div class="col-6 form-group">
+          <label class="form-label">Capacity (tons)</label>
+          <input type="number" formControlName="capacity" class="form-control-ff" placeholder="e.g. 10">
+        </div>
+        <div class="col-6 form-group">
+          <label class="form-label">Description</label>
+          <input formControlName="description" class="form-control-ff" placeholder="e.g. Heavy duty cargo truck">
+        </div>
+      </div>
+      <div class="d-flex justify-content-end gap-2 mt-3">
+        <button type="button" class="btn btn-outline-secondary" (click)="cancelled.emit()">Cancel</button>
+        <button type="submit" class="btn-primary-ff">Add Vehicle</button>
+      </div>
+    </form>
+  </div>
+</div>

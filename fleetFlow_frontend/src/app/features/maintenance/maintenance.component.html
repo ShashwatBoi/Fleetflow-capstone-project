@@ -1,0 +1,33 @@
+<div class="page-header">
+  <div><h2>Maintenance 🔧</h2><p>Track vehicle maintenance records</p></div>
+  <button *ngIf="role === 'ADMIN' || role === 'MANAGER'" class="btn-primary-ff" (click)="showAddModal = true">+ Add Record</button>
+</div>
+
+<div class="ff-card mb-3" *ngIf="trends.length > 0">
+  <h5 style="margin-bottom:12px;font-weight:600">📊 Maintenance Trends</h5>
+  <table class="ff-table">
+    <thead><tr><th>SERVICE TYPE</th><th>COUNT</th><th>TOTAL COST</th></tr></thead>
+    <tbody>
+      <tr *ngFor="let t of trends">
+        <td><span class="badge-status badge-planned">{{ t.type }}</span></td>
+        <td>{{ t.count }}</td>
+        <td>₹{{ t.totalCost | number }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<app-maintenance-list
+  [records]="records"
+  [warehouses]="warehouses"
+  [loading]="loading"
+  [role]="role"
+  [serviceTypes]="serviceTypes"
+  (filterChange)="onFilter($event)"
+  (reset)="load()"
+  (updateCost)="openUpdate($event)"
+  (delete)="onDelete($event)">
+</app-maintenance-list>
+
+<app-maintenance-add *ngIf="showAddModal" [trips]="trips" (added)="showAddModal = false; load()" (cancelled)="showAddModal = false"></app-maintenance-add>
+<app-maintenance-update *ngIf="showUpdateModal" [record]="selectedRecord" (updated)="showUpdateModal = false; load()" (cancelled)="showUpdateModal = false"></app-maintenance-update>

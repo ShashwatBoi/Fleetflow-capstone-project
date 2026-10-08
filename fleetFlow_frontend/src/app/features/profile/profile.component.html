@@ -1,0 +1,97 @@
+<div class="profile-page">
+
+  <!-- Page Header -->
+  <div class="dash-welcome">
+    <h1 class="dash-title">My Profile 👤</h1>
+    <p class="dash-subtitle">Manage your account settings</p>
+  </div>
+
+  <div class="profile-layout">
+
+    <!-- Left: Avatar Card -->
+    <div class="profile-avatar-card">
+      <div class="profile-avatar">{{ initials }}</div>
+      <div class="profile-name">{{ username }}</div>
+      <div class="profile-role-badge" [ngClass]="role.toLowerCase()">{{ role }}</div>
+      <div class="profile-meta">
+        <span>Account Settings</span>
+      </div>
+    </div>
+
+    <!-- Right: Forms -->
+    <div class="profile-forms">
+
+      <!-- Change Password -->
+      <div class="profile-card">
+        <div class="profile-card-header">
+          <span class="profile-card-icon">🔑</span>
+          <span class="profile-card-title">Change Password</span>
+        </div>
+        <div class="profile-card-body">
+          <form [formGroup]="passwordForm" (ngSubmit)="updatePassword()">
+            <div class="pf-group">
+              <label class="pf-label">Current Password</label>
+              <input type="password" formControlName="oldPassword" class="pf-input"
+                [class.pf-invalid]="pf('oldPassword')?.invalid && pf('oldPassword')?.touched">
+              <div class="pf-error" *ngIf="pf('oldPassword')?.invalid && pf('oldPassword')?.touched">Required</div>
+            </div>
+            <div class="pf-row">
+              <div class="pf-group">
+                <label class="pf-label">New Password</label>
+                <input type="password" formControlName="newPassword" class="pf-input"
+                  [class.pf-invalid]="pf('newPassword')?.invalid && pf('newPassword')?.touched">
+                <div class="pf-error" *ngIf="pf('newPassword')?.invalid && pf('newPassword')?.touched">Min 6 characters</div>
+              </div>
+              <div class="pf-group">
+                <label class="pf-label">Confirm Password</label>
+                <input type="password" formControlName="confirmPassword" class="pf-input">
+              </div>
+            </div>
+            <button type="submit" class="pf-btn">Update Password</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Update Username + Security Question side by side -->
+      <div class="profile-cards-row">
+
+        <div class="profile-card">
+          <div class="profile-card-header">
+            <span class="profile-card-icon">✏️</span>
+            <span class="profile-card-title">Update Username</span>
+          </div>
+          <div class="profile-card-body">
+            <form [formGroup]="usernameForm" (ngSubmit)="updateUsername()">
+              <div class="pf-group">
+                <label class="pf-label">New Username</label>
+                <input formControlName="newUsername" class="pf-input">
+              </div>
+              <button type="submit" class="pf-btn">Update Username</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="profile-card">
+          <div class="profile-card-header">
+            <span class="profile-card-icon">🔒</span>
+            <span class="profile-card-title">Security Question</span>
+          </div>
+          <div class="profile-card-body">
+            <form [formGroup]="securityForm" (ngSubmit)="setSecurityQuestion()">
+              <div class="pf-group">
+                <label class="pf-label">Question</label>
+                <input formControlName="question" class="pf-input" placeholder="e.g. Your pet's name?">
+              </div>
+              <div class="pf-group">
+                <label class="pf-label">Answer</label>
+                <input formControlName="answer" class="pf-input" placeholder="Your answer">
+              </div>
+              <button type="submit" class="pf-btn">Save</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

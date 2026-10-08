@@ -1,0 +1,120 @@
+<div *ngIf="loading" class="spinner-overlay"><div class="spinner-border text-primary"></div></div>
+
+<div *ngIf="!loading" class="admin-dash">
+
+  <!-- Welcome Header -->
+  <div class="dash-welcome">
+    <div>
+      <h1 class="dash-title">Welcome back, {{ username }} 👋</h1>
+      <p class="dash-subtitle">{{ today | date:'EEEE, dd MMMM yyyy' }} &nbsp;·&nbsp; Your driving overview</p>
+    </div>
+  </div>
+
+  <!-- Stats Row -->
+  <div class="dash-section-label">My Stats</div>
+  <div class="stats-row stats-row-4">
+    <div class="stat-tile stat-blue">
+      <div class="stat-tile-icon">🗺️</div>
+      <div class="stat-tile-body">
+        <div class="stat-tile-value">{{ trips.length }}</div>
+        <div class="stat-tile-label">Total Trips</div>
+      </div>
+    </div>
+    <div class="stat-tile stat-amber">
+      <div class="stat-tile-icon">🚦</div>
+      <div class="stat-tile-body">
+        <div class="stat-tile-value">{{ activeTrips.length }}</div>
+        <div class="stat-tile-label">Active Trips</div>
+      </div>
+    </div>
+    <div class="stat-tile stat-emerald">
+      <div class="stat-tile-icon">✅</div>
+      <div class="stat-tile-body">
+        <div class="stat-tile-value">{{ completedTrips.length }}</div>
+        <div class="stat-tile-label">Completed</div>
+      </div>
+    </div>
+    <div class="stat-tile stat-indigo">
+      <div class="stat-tile-icon">⭐</div>
+      <div class="stat-tile-body">
+        <div class="stat-tile-value">{{ profile?.rating || 0 }}</div>
+        <div class="stat-tile-label">Rating</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detail Panels -->
+  <div class="dash-section-label" style="margin-top: 36px;">Details</div>
+  <div class="dash-panels">
+
+    <!-- My Profile -->
+    <div class="dash-panel" *ngIf="profile">
+      <div class="dash-panel-header">
+        <span class="dash-panel-icon">👷</span>
+        <span class="dash-panel-title">My Profile</span>
+      </div>
+      <div class="dash-panel-body">
+        <div class="info-row">
+          <span class="info-label">Name</span>
+          <span class="info-value">{{ profile.driverName }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">License #</span>
+          <span class="info-value">{{ profile.licenseNumber }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Phone</span>
+          <span class="info-value">{{ profile.phoneNumber }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Experience</span>
+          <span class="info-value">{{ profile.experience }} yrs</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Status</span>
+          <span class="status-pill" [ngClass]="profile.available ? 'pill-green' : 'pill-red'">
+            {{ profile.available ? 'Available' : 'Unavailable' }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Trips -->
+    <div class="dash-panel" style="grid-column: span 2;">
+      <div class="dash-panel-header">
+        <span class="dash-panel-icon">🗺️</span>
+        <span class="dash-panel-title">Recent Trips</span>
+      </div>
+      <div class="dash-panel-body" style="padding: 0 0 4px;">
+        <table class="ff-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Route</th>
+              <th>Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let t of trips | slice:0:5">
+              <td class="trip-id">#{{ t.tripId }}</td>
+              <td>{{ t.sourceLocation }} → {{ t.destinationLocation }}</td>
+              <td style="color:#94a3b8; font-size:0.82rem;">{{ t.startDate }}</td>
+              <td>
+                <span class="status-pill" [ngClass]="{
+                  'pill-blue': t.tripStatus === 'PLANNED',
+                  'pill-amber': t.tripStatus === 'IN_PROGRESS',
+                  'pill-green': t.tripStatus === 'COMPLETED'
+                }">{{ t.tripStatus }}</span>
+              </td>
+            </tr>
+            <tr *ngIf="trips.length === 0">
+              <td colspan="4" class="empty-row">No trips found</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>

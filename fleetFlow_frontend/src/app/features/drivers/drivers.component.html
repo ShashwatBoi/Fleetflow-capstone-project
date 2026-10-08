@@ -1,0 +1,20 @@
+
+<div class="page-header">
+  <div><h2>Drivers 👷</h2><p>Manage drivers and performance</p></div>
+  <button *ngIf="role === 'ADMIN' || role === 'MANAGER'" class="btn-primary-ff" (click)="showAddModal = true">+ Add Driver</button>
+</div>
+
+<app-driver-list
+  [drivers]="drivers"
+  [warehouses]="warehouses"
+  [loading]="loading"
+  [role]="role"
+  (search)="onSearch($event)"
+  (reset)="load()"
+  (updatePhone)="openUpdate($event)"
+  (updateAvailability)="onUpdateAvailability($event)">
+</app-driver-list>
+
+
+<app-driver-add *ngIf="showAddModal" [warehouseId]="managerWarehouseId" (added)="showAddModal = false; load()" (cancelled)="showAddModal = false"></app-driver-add>
+<app-driver-update *ngIf="showUpdateModal" [driver]="selectedDriver" (updated)="showUpdateModal = false; load()" (cancelled)="showUpdateModal = false"></app-driver-update>

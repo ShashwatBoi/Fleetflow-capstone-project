@@ -1,0 +1,45 @@
+<div class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-title">🚛 FleetFlow</div>
+    <div class="brand-sub">Fleet Management System</div>
+  </div>
+
+  <div class="role-badge" [ngClass]="role.toLowerCase()">{{ role }}</div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">MAIN</div>
+    <a [routerLink]="['/', role.toLowerCase(), 'dashboard']" routerLinkActive="active">
+      <i class="bi bi-grid-1x2-fill"></i> Dashboard
+    </a>
+
+    <div class="nav-section-label">FLEET</div>
+    <a [routerLink]="['/', role.toLowerCase(), 'warehouses']" routerLinkActive="active">
+      <i class="bi bi-building"></i> Warehouses
+    </a>
+    <a [routerLink]="['/', role.toLowerCase(), 'vehicles']" routerLinkActive="active">
+      <i class="bi bi-truck"></i> Vehicles
+    </a>
+    <a *ngIf="role !== 'DRIVER'" [routerLink]="['/', role.toLowerCase(), 'drivers']" routerLinkActive="active">
+      <i class="bi bi-person-badge"></i> Drivers
+    </a>
+
+    <div class="nav-section-label">OPERATIONS</div>
+    <a [routerLink]="['/', role.toLowerCase(), 'trips']" routerLinkActive="active">
+      <i class="bi bi-map"></i> Trips
+    </a>
+    <a [routerLink]="['/', role.toLowerCase(), 'maintenance']" routerLinkActive="active" *ngIf="role !=='DRIVER'">
+      <i class="bi bi-tools"></i> Maintenance
+    </a>
+
+    <div class="nav-section-label">ACCOUNT</div>
+    <a [routerLink]="['/', role.toLowerCase(), 'profile']" routerLinkActive="active">
+      <i class="bi bi-person-circle"></i> My Profile
+    </a>
+  </nav>
+
+  <div class="sidebar-logout">
+    <a (click)="logout()" style="cursor:pointer">
+      <i class="bi bi-box-arrow-left"></i> Logout
+    </a>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<div class="ff-card">
+  <div *ngIf="loading" class="spinner-overlay"><div class="spinner-border text-primary"></div></div>
+  <table class="ff-table" *ngIf="!loading">
+    <thead>
+      <tr><th>#</th><th>NAME</th><th>LOCATION</th><th>CAPACITY</th><th>MANAGER</th><th>CONTACT</th><th>TRIPS</th><th>VEHICLES</th><th>ACTIONS</th></tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let w of warehouses; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td><strong>{{ w.warehouseName }}</strong></td>
+        <td>{{ w.location }}</td>
+        <td>{{ w.capacity }}</td>
+        <td>{{ w.managerName }}</td>
+        <td>{{ w.contactNumber }}</td>
+        <td><span class="badge-status badge-planned">{{ w.totalTrips || 0 }}</span></td>
+        <td><span class="badge-status badge-available">{{ w.activeVehicles || 0 }}</span></td>
+        <td>
+          <button *ngIf="role === 'ADMIN' || role === 'MANAGER'" class="btn btn-sm btn-outline-primary" (click)="updateCapacity.emit(w)">
+            ✏️ Update Capacity
+          </button>
+        </td>
+      </tr>
+      <tr *ngIf="warehouses.length === 0"><td colspan="9" class="empty-row">No warehouses found</td></tr>
+    </tbody>
+  </table>
+</div>

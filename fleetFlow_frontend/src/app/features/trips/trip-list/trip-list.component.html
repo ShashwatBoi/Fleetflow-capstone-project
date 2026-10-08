@@ -1,0 +1,46 @@
+<div class="filter-bar mb-3">
+  <input class="form-control-ff" style="width:200px" [(ngModel)]="searchDriver" placeholder="🔍 Search by driver..." (keyup.enter)="onSearch()">
+  <select class="form-control-ff" style="width:180px" [(ngModel)]="filterWarehouseId" (ngModelChange)="onSearch()">
+    <option value="">All Warehouses</option>
+    <option *ngFor="let w of warehouses" [value]="w.warehouseId">{{ w.warehouseName }}</option>
+  </select>
+  <select class="form-control-ff" style="width:150px" [(ngModel)]="filterStatus" (change)="onSearch()">
+    <option value="">All Statuses</option>
+    <option value="PLANNED">Planned</option>
+    <option value="IN_PROGRESS">In Progress</option>
+    <option value="COMPLETED">Completed</option>
+    <option value="CANCELLED">Cancelled</option>
+  </select>
+  <div style="display:flex;align-items:center;gap:6px">
+    <label class="form-label" style="font-size:0.75rem;margin:0;white-space:nowrap">Start Date</label>
+    <input type="date" class="form-control-ff" style="width:155px" [(ngModel)]="startDate" (change)="onSearch()">
+  </div>
+  <div style="display:flex;align-items:center;gap:6px">
+    <label class="form-label" style="font-size:0.75rem;margin:0;white-space:nowrap">End Date</label>
+    <input type="date" class="form-control-ff" style="width:155px" [(ngModel)]="endDate" (change)="onSearch()">
+  </div>
+  <button class="btn-primary-ff" (click)="onSearch()">🔍 Search</button>
+  <button class="btn btn-sm btn-outline-secondary" (click)="onReset()">🔄 Reset</button>
+</div>
+
+<div class="ff-card">
+  <div *ngIf="loading" class="spinner-overlay"><div class="spinner-border text-primary"></div></div>
+  <table class="ff-table" *ngIf="!loading">
+    <thead><tr><th>#</th><th>ID</th><th>FROM → TO</th><th>START</th><th>END</th><th>DISTANCE</th><th>DRIVER</th><th>VEHICLE</th><th>STATUS</th><th>UPDATE</th></tr></thead>
+    <tbody>
+      <tr *ngFor="let t of trips; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td><span class="trip-id">#{{ t.tripId }}</span></td>
+        <td><strong>{{ t.sourceLocation }}</strong><br><small style="color:#64748b">→ {{ t.destinationLocation }}</small></td>
+        <td>{{ t.startDate }}</td>
+        <td>{{ t.endDate || '—' }}</td>
+        <td>{{ t.distanceCovered }} km</td>
+        <td>{{ t.driver?.driverName || '—' }}</td>
+        <td>{{ t.vehicle?.vehicleNumber || '—' }}</td>
+        <td><span class="badge-status" [ngClass]="statusClass(t.tripStatus)">{{ t.tripStatus }}</span></td>
+        <td><button class="btn btn-sm btn-outline-primary" (click)="updateStatus.emit(t)">🔄 Update</button></td>
+      </tr>
+      <tr *ngIf="trips.length === 0"><td colspan="10" class="empty-row">No trips found</td></tr>
+    </tbody>
+  </table>
+</div>

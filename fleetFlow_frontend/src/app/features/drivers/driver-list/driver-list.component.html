@@ -1,0 +1,42 @@
+<div class="filter-bar mb-3">
+  <input class="form-control-ff" style="width:200px" [(ngModel)]="searchName" placeholder="🔍 Search by name..." (keyup.enter)="onSearch()">
+  <select class="form-control-ff" style="width:180px" [(ngModel)]="filterWarehouseId" (change)="onSearch()">
+    <option value="">All Warehouses</option>
+    <option *ngFor="let w of warehouses" [value]="w.warehouseId">{{ w.warehouseName }}</option>
+  </select>
+  <select class="form-control-ff" style="width:150px" [(ngModel)]="filterStatus" (change)="onSearch()">
+    <option value="">All Statuses</option>
+    <option value="true">Available</option>
+    <option value="false">Unavailable</option>
+  </select>
+  <button class="btn-primary-ff" (click)="onSearch()">🔍 Search</button>
+  <button class="btn btn-sm btn-outline-secondary" (click)="onReset()">🔄 Reset</button>
+</div>
+
+<div class="ff-card">
+  <div *ngIf="loading" class="spinner-overlay"><div class="spinner-border text-primary"></div></div>
+  <table class="ff-table" *ngIf="!loading">
+    <thead><tr><th>#</th><th>NAME</th><th>LICENSE #</th><th>PHONE</th><th>EMAIL</th><th>EXP (YRS)</th><th>LICENSE EXPIRY</th><th>TRIPS</th><th>STATUS</th><th>ACTIONS</th></tr></thead>
+    <tbody>
+      <tr *ngFor="let d of drivers; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td><strong>{{ d.driverName }}</strong></td>
+        <td>{{ d.licenseNumber }}</td>
+        <td>{{ d.phoneNumber }}</td>
+        <td>{{ d.emailId }}</td>
+        <td>{{ d.experience }}</td>
+        <td>{{ d.licenseExpiryDate }}</td>
+        <td>{{ d.totalTrips || 0 }}</td>
+        <td><span class="badge-status" [ngClass]="d.available ? 'badge-available' : 'badge-in-use'">{{ d.available ? 'Available' : 'Unavailable' }}</span></td>
+        <td class="action-cell">
+          <button *ngIf="role !== 'DRIVER'" class="btn btn-sm btn-outline-primary" (click)="updatePhone.emit(d)">📞 Phone</button>
+          <button *ngIf="role !== 'DRIVER'" class="btn btn-sm" (click)="updateAvailability.emit(d)"
+            [ngClass]="d.available ? 'btn-outline-warning' : 'btn-outline-success'">
+            {{ d.available ? '🔴 Set Unavailable' : '🟢 Set Available' }}
+          </button>
+        </td>
+      </tr>
+      <tr *ngIf="drivers.length === 0"><td colspan="10" class="empty-row">No drivers found</td></tr>
+    </tbody>
+  </table>
+</div>

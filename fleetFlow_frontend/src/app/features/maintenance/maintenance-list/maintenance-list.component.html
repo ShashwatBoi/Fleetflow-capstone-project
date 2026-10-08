@@ -1,0 +1,39 @@
+<div class="filter-bar mb-3">
+  <select class="form-control-ff" style="width:200px" [(ngModel)]="filterServiceType" (change)="onFilter()">
+    <option value="">All Service Types</option>
+    <option *ngFor="let s of serviceTypes" [value]="s">{{ s }}</option>
+  </select>
+  <select class="form-control-ff" style="width:180px" [(ngModel)]="filterWarehouseId" (ngModelChange)="onFilter()">
+    <option value="">All Warehouses</option>
+    <option *ngFor="let w of warehouses" [value]="w.warehouseId">{{ w.warehouseName }}</option>
+  </select>
+  <input type="date" class="form-control-ff" style="width:160px" [(ngModel)]="filterDateFrom" (change)="onFilter()">
+  <input type="date" class="form-control-ff" style="width:160px" [(ngModel)]="filterDateTo" (change)="onFilter()">
+  <button class="btn btn-sm btn-outline-secondary" (click)="onReset()">🔄 Reset</button>
+</div>
+
+<div class="ff-card">
+  <div *ngIf="loading" class="spinner-overlay"><div class="spinner-border text-primary"></div></div>
+  <table class="ff-table" *ngIf="!loading">
+    <thead><tr><th>#</th><th>DATE</th><th>SERVICE TYPE</th><th>TRIP #</th><th>COST</th><th>PARTS</th><th>LABOR</th><th>PERFORMED BY</th><th>NEXT SERVICE</th><th>STATUS</th><th>ACTIONS</th></tr></thead>
+    <tbody>
+      <tr *ngFor="let r of records; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ r.maintenanceDate }}</td>
+        <td><span class="badge-status badge-planned">{{ r.serviceType }}</span></td>
+        <td><span class="trip-id">#{{ r.trip?.tripId || '—' }}</span></td>
+        <td><strong>₹{{ r.cost | number }}</strong></td>
+        <td>₹{{ r.partsCost || 0 }}</td>
+        <td>₹{{ r.laborCost || 0 }}</td>
+        <td>{{ r.performedBy || '—' }}</td>
+        <td>{{ r.nextServiceDate || '—' }}</td>
+        <td><span class="badge-status badge-completed">{{ r.status || 'Completed' }}</span></td>
+        <td class="action-cell">
+          <button *ngIf="role !== 'DRIVER'" class="btn btn-sm btn-outline-primary" (click)="updateCost.emit(r)">💰 Cost</button>
+          <button *ngIf="role === 'ADMIN'" class="btn btn-sm btn-delete" (click)="delete.emit(r.maintenanceId!)">🗑️ Delete</button>
+        </td>
+      </tr>
+      <tr *ngIf="records.length === 0"><td colspan="11" class="empty-row">No records found</td></tr>
+    </tbody>
+  </table>
+</div>

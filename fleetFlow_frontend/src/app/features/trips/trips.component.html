@@ -1,0 +1,17 @@
+<div class="page-header">
+  <div><h2>Trips 🗺️</h2><p>Manage trips, routes and analytics</p></div>
+  <button *ngIf="role === 'ADMIN' || role === 'MANAGER'" class="btn-primary-ff" (click)="showAddModal = true">+ New Trip</button>
+</div>
+
+<app-trip-list
+  [trips]="trips"
+  [warehouses]="warehouses"
+  [loading]="loading"
+  [role]="role"
+  (search)="onSearch($event)"
+  (reset)="load()"
+  (updateStatus)="openUpdate($event)">
+</app-trip-list>
+
+<app-trip-add *ngIf="showAddModal" [drivers]="drivers" [vehicles]="vehicles" (added)="showAddModal = false; load()" (cancelled)="showAddModal = false"></app-trip-add>
+<app-trip-update *ngIf="showUpdateModal" [trip]="selectedTrip" (updated)="showUpdateModal = false; load()" (cancelled)="showUpdateModal = false"></app-trip-update>

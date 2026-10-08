@@ -1,0 +1,81 @@
+<div class="login-page">
+
+  <!-- Left panel -->
+  <div class="login-left">
+    <div class="login-brand">
+      <div class="login-brand-icon">🚛</div>
+      <h1>FleetFlow</h1>
+      <p>Fleet Management System</p>
+    </div>
+    <div class="login-features">
+      <div class="login-feature"><span>🏭</span><span>Multi-warehouse management</span></div>
+      <div class="login-feature"><span>🚛</span><span>Real-time vehicle tracking</span></div>
+      <div class="login-feature"><span>👷</span><span>Driver performance analytics</span></div>
+      <div class="login-feature"><span>🔧</span><span>Maintenance record keeping</span></div>
+    </div>
+  </div>
+
+  <!-- Right panel -->
+  <div class="login-right">
+    <div class="login-card">
+      <div class="login-card-header">
+        <h2>Welcome back 👋</h2>
+        <p>Sign in to your FleetFlow account</p>
+      </div>
+
+      <div *ngIf="error" class="login-error">
+        <span>⚠️</span> {{ error }}
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="login()">
+        <div class="login-field">
+          <label>Username</label>
+          <div class="login-input-wrap">
+            <span class="login-input-icon">👤</span>
+            <input formControlName="username"
+                   [class.invalid]="f('username')?.invalid && f('username')?.touched"
+                   placeholder="Enter your username">
+          </div>
+          <div class="login-field-error" *ngIf="f('username')?.errors?.['required'] && f('username')?.touched">
+            Username is required
+          </div>
+        </div>
+
+        <div class="login-field">
+          <label>Password</label>
+          <div class="login-input-wrap">
+            <span class="login-input-icon">🔒</span>
+            <input [type]="showPassword ? 'text' : 'password'"
+                   formControlName="password"
+                   [class.invalid]="f('password')?.invalid && f('password')?.touched"
+                   placeholder="Enter your password">
+            <span class="login-eye" (click)="showPassword = !showPassword">
+              {{ showPassword ? '🙈' : '👁️' }}
+            </span>
+          </div>
+          <div class="login-field-error" *ngIf="f('password')?.errors?.['required'] && f('password')?.touched">
+            Password is required
+          </div>
+        </div>
+
+        <button type="submit" class="login-btn" [disabled]="loading">
+          <span *ngIf="!loading">Sign In →</span>
+          <span *ngIf="loading" class="login-spinner"></span>
+        </button>
+      </form>
+
+      <div class="login-links">
+        <a routerLink="/auth/forgot-password">Forgot Password?</a>
+        <span>·</span>
+        <a routerLink="/auth/register">Create Account</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Truck animation — outside login-page so overflow:hidden doesn't clip it -->
+<div class="truck-animation" [class.active]="showTruck">
+  <div class="truck-emoji">🚛</div>
+  <div class="road-line"></div>
+</div>

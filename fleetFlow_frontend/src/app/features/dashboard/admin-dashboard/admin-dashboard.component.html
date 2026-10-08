@@ -1,0 +1,130 @@
+<div *ngIf="loading" class="spinner-overlay"><div class="spinner-border text-primary"></div></div>
+
+<div *ngIf="!loading" class="admin-dash">
+
+  <!-- Welcome Header -->
+  <div class="dash-welcome">
+    <div>
+      <h1 class="dash-title">Welcome back, {{ username }} 👋</h1>
+      <p class="dash-subtitle">{{ today | date:'EEEE, dd MMMM yyyy' }} &nbsp;·&nbsp; Here's your FleetFlow overview</p>
+    </div>
+  </div>
+
+  <!-- Stats Row 1: Core entities -->
+  <div class="dash-section-label">Fleet Overview</div>
+  <div class="stats-row">
+    <div class="stat-tile stat-indigo">
+      <div class="stat-tile-icon">🏭</div>
+      <div class="stat-tile-body">
+        <div class="stat-tile-value">{{ stats.warehouses }}</div>
+        <div class="stat-tile-label">Warehouses</div>
+      </div>
+    </div>
+    <div class="stat-tile stat-amber">
+      <div class="stat-tile-icon">🚛</div>
+      <div class="stat-tile-body">
+        <div class="stat-tile-value">{{ stats.vehicles }}</div>
+        <div class="stat-tile-label">Total Vehicles</div>
+      </div>
+    </div>
+    <div class="stat-tile stat-emerald">
+      <div class="stat-tile-icon">👷</div>
+      <div class="stat-tile-body">
+        <div class="stat-tile-value">{{ stats.drivers }}</div>
+        <div class="stat-tile-label">Drivers</div>
+      </div>
+    </div>
+    <div class="stat-tile stat-blue">
+      <div class="stat-tile-icon">🗺️</div>
+      <div class="stat-tile-body">
+        <div class="stat-tile-value">{{ stats.trips }}</div>
+        <div class="stat-tile-label">Total Trips</div>
+      </div>
+    </div>
+    <div class="stat-tile stat-rose">
+      <div class="stat-tile-icon">🔧</div>
+      <div class="stat-tile-body">
+        <div class="stat-tile-value">{{ stats.maintenance }}</div>
+        <div class="stat-tile-label">Maintenance</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detail Panels -->
+  <div class="dash-section-label" style="margin-top: 36px;">Status Breakdown</div>
+  <div class="dash-panels">
+
+    <!-- Trip Status -->
+    <div class="dash-panel">
+      <div class="dash-panel-header">
+        <span class="dash-panel-icon">🗺️</span>
+        <span class="dash-panel-title">Trip Status</span>
+      </div>
+      <div class="dash-panel-body">
+        <div class="status-row">
+          <div class="status-dot dot-blue"></div>
+          <span class="status-name">Planned</span>
+          <span class="status-pill pill-blue">{{ plannedTrips }}</span>
+        </div>
+        <div class="status-row">
+          <div class="status-dot dot-amber"></div>
+          <span class="status-name">In Progress</span>
+          <span class="status-pill pill-amber">{{ inProgressTrips }}</span>
+        </div>
+        <div class="status-row">
+          <div class="status-dot dot-green"></div>
+          <span class="status-name">Completed</span>
+          <span class="status-pill pill-green">{{ completedTrips }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vehicle Status -->
+    <div class="dash-panel">
+      <div class="dash-panel-header">
+        <span class="dash-panel-icon">🚛</span>
+        <span class="dash-panel-title">Vehicle Status</span>
+      </div>
+      <div class="dash-panel-body">
+        <div class="status-row">
+          <div class="status-dot dot-green"></div>
+          <span class="status-name">Available</span>
+          <span class="status-pill pill-green">{{ availableVehicles }}</span>
+        </div>
+        <div class="status-row">
+          <div class="status-dot dot-amber"></div>
+          <span class="status-name">In Use</span>
+          <span class="status-pill pill-amber">{{ inUseVehicles }}</span>
+        </div>
+        <div class="status-row">
+          <div class="status-dot dot-red"></div>
+          <span class="status-name">Maintenance</span>
+          <span class="status-pill pill-red">{{ maintenanceVehicles }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Summary -->
+    <div class="dash-panel">
+      <div class="dash-panel-header">
+        <span class="dash-panel-icon">✅</span>
+        <span class="dash-panel-title">Quick Summary</span>
+      </div>
+      <div class="dash-panel-body">
+        <div class="summary-row">
+          <span class="summary-label">Available Vehicles</span>
+          <span class="summary-value text-green">{{ stats.availableVehicles }}</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Active Trips</span>
+          <span class="summary-value text-amber">{{ inProgressTrips }}</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Pending Maintenance</span>
+          <span class="summary-value text-red">{{ stats.maintenance }}</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

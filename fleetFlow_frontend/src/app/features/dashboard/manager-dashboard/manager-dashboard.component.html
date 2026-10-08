@@ -1,0 +1,135 @@
+<div *ngIf="loading" class="spinner-overlay"><div class="spinner-border text-primary"></div></div>
+
+<div *ngIf="!loading" class="admin-dash">
+
+  <!-- Welcome Header -->
+  <div class="dash-welcome">
+    <div>
+      <h1 class="dash-title">Welcome back, {{ username }} 👋</h1>
+      <p class="dash-subtitle">{{ today | date:'EEEE, dd MMMM yyyy' }} &nbsp;·&nbsp; {{ warehouse?.warehouseName || 'Your Warehouse' }} Overview</p>
+    </div>
+  </div>
+
+  <!-- Stats Row -->
+  <div class="dash-section-label">Warehouse Overview</div>
+  <div class="stats-row stats-row-4" *ngIf="warehouse">
+    <div class="stat-tile stat-indigo">
+      <div class="stat-tile-icon">🏭</div>
+      <div class="stat-tile-body">
+        <div class="stat-tile-value">{{ warehouse.capacity }}</div>
+        <div class="stat-tile-label">Capacity</div>
+      </div>
+    </div>
+    <div class="stat-tile stat-amber">
+      <div class="stat-tile-icon">🚛</div>
+      <div class="stat-tile-body">
+        <div class="stat-tile-value">{{ stats.vehicles }}</div>
+        <div class="stat-tile-label">Vehicles</div>
+      </div>
+    </div>
+    <div class="stat-tile stat-emerald">
+      <div class="stat-tile-icon">👷</div>
+      <div class="stat-tile-body">
+        <div class="stat-tile-value">{{ stats.drivers }}</div>
+        <div class="stat-tile-label">Drivers</div>
+      </div>
+    </div>
+    <div class="stat-tile stat-blue">
+      <div class="stat-tile-icon">🗺️</div>
+      <div class="stat-tile-body">
+        <div class="stat-tile-value">{{ stats.trips }}</div>
+        <div class="stat-tile-label">Total Trips</div>
+      </div>
+    </div>
+    <div class="stat-tile stat-rose">
+      <div class="stat-tile-icon">🔧</div>
+      <div class="stat-tile-body">
+        <div class="stat-tile-value">{{ stats.maintenance }}</div>
+        <div class="stat-tile-label">Maintenance</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detail Panels -->
+  <div class="dash-section-label" style="margin-top: 36px;">Details</div>
+  <div class="dash-panels">
+
+    <!-- Warehouse Profile -->
+    <div class="dash-panel" *ngIf="warehouse">
+      <div class="dash-panel-header">
+        <span class="dash-panel-icon">🏭</span>
+        <span class="dash-panel-title">Warehouse Profile</span>
+      </div>
+      <div class="dash-panel-body">
+        <div class="info-row">
+          <span class="info-label">Name</span>
+          <span class="info-value">{{ warehouse.warehouseName }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Location</span>
+          <span class="info-value">{{ warehouse.location }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Manager</span>
+          <span class="info-value">{{ warehouse.managerName }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Contact</span>
+          <span class="info-value">{{ warehouse.contactNumber }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Email</span>
+          <span class="info-value">{{ warehouse.email }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trip Status -->
+    <div class="dash-panel">
+      <div class="dash-panel-header">
+        <span class="dash-panel-icon">🗺️</span>
+        <span class="dash-panel-title">Trip Status</span>
+      </div>
+      <div class="dash-panel-body">
+        <div class="status-row">
+          <div class="status-dot dot-blue"></div>
+          <span class="status-name">Planned</span>
+          <span class="status-pill pill-blue">{{ plannedTrips }}</span>
+        </div>
+        <div class="status-row">
+          <div class="status-dot dot-amber"></div>
+          <span class="status-name">In Progress</span>
+          <span class="status-pill pill-amber">{{ inProgressTrips }}</span>
+        </div>
+        <div class="status-row">
+          <div class="status-dot dot-green"></div>
+          <span class="status-name">Completed</span>
+          <span class="status-pill pill-green">{{ completedTrips }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Summary -->
+    <div class="dash-panel">
+      <div class="dash-panel-header">
+        <span class="dash-panel-icon">📊</span>
+        <span class="dash-panel-title">Quick Summary</span>
+      </div>
+      <div class="dash-panel-body">
+        <div class="summary-row">
+          <span class="summary-label">Total Vehicles</span>
+          <span class="summary-value text-amber">{{ stats.vehicles }}</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Active Trips</span>
+          <span class="summary-value text-amber">{{ inProgressTrips }}</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Pending Maintenance</span>
+          <span class="summary-value text-red">{{ stats.maintenance }}</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
